@@ -201,20 +201,42 @@ h2.rv.in{animation:writeOn 1.5s cubic-bezier(.45,.05,.3,1) both}
 @keyframes eq{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
 @keyframes fabNudge{0%,100%{box-shadow:0 6px 16px rgba(30,0,6,.4),0 0 0 0 rgba(240,201,143,.7)}50%{box-shadow:0 6px 16px rgba(30,0,6,.4),0 0 0 12px rgba(240,201,143,0)}}
 
-/* ---------- opening video ---------- */
-#intro{position:fixed;inset:0;z-index:100;overflow:hidden;background:#2b0a10;transition:opacity 1s ease,visibility 0s linear 1s}
-#intro::before{content:"";position:absolute;inset:-48px;background:url(opening-poster.jpg) center/cover;filter:blur(28px) brightness(.5)}
-#intro.open{opacity:0;visibility:hidden}
-#intro .stage{position:absolute;left:50%;top:50%;height:max(100%,177.78vw);aspect-ratio:9/16;transform:translate(-50%,-50%)}
-#intro video{display:block;width:100%;height:100%;object-fit:cover}
-#intro .ring{position:absolute;left:50.6%;top:46.7%;width:44%;aspect-ratio:1;margin:-22% 0 0 -22%;border-radius:50%;pointer-events:none;box-shadow:0 0 0 2px rgba(255,236,190,.6),0 0 28px 8px rgba(255,226,160,.35);animation:ringPulse 2.4s ease-out infinite}
+/* ---------- animated opening (paper-theatre scene, drawn at 1080 x 1920 and scaled to fit) ---------- */
+html.intro-lock,html.intro-lock body{overflow:hidden}
+#intro{position:fixed;inset:0;z-index:100;overflow:hidden;touch-action:none;overscroll-behavior:contain;transition:opacity .5s ease}
+#intro.gone{opacity:0;pointer-events:none}
+#intro .bg{position:absolute;inset:0;background:#131c33}
+#intro .stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;transform:translate(-50%,-50%) scale(var(--k,.4))}
+#intro img{position:absolute;display:block;max-width:none;-webkit-user-drag:none;user-select:none}
+#intro .lobby{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;transform-origin:0 0;will-change:transform}
+#intro .world{position:absolute;left:0;top:0;width:2160px;height:1920px;will-change:transform}
+#intro .l-bg{left:0;top:0;width:2160px;height:1920px}
+#intro .l-tree{left:330px;top:662px;width:707px;height:1060px;filter:drop-shadow(10px 12px 0 rgba(70,25,15,.16))}
+#intro .l-waiter{left:0;top:0;width:629px;height:940px;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(9px 10px 0 rgba(70,25,15,.16))}
+#intro .l-couple{position:absolute;left:1451px;top:981px;width:579px;height:769px;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(8px 9px 0 rgba(70,25,15,.16))}
+#intro .l-couple img{left:0;top:0;width:100%;height:100%}
+#intro .ext{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540.5px 1268.5px;will-change:transform,opacity}
+#intro .e-facade{left:0;top:0;width:1080px;height:1920px}
+#intro .e-door{position:absolute;left:326px;top:847px;width:429px;height:843px;perspective:1500px}
+#intro .leaf{top:0;height:843px;will-change:transform}
+#intro .leaf.l{left:0;width:214px;transform-origin:0 50%}
+#intro .leaf.r{left:214px;width:215px;transform-origin:100% 50%}
+#intro .snow{position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 3px,transparent 4.5px),radial-gradient(circle,rgba(255,255,255,.8) 0 5px,transparent 6.5px),radial-gradient(circle,rgba(255,255,255,.7) 0 2.5px,transparent 4px);
+  background-size:230px 290px,370px 410px,150px 190px;background-position:20px 0,160px 0,90px 0;animation:snowfall 9s linear infinite}
+@keyframes snowfall{to{background-position:60px 580px,120px 820px,150px 570px}}
+#intro .carry{left:0;top:0;width:470px;height:554px;transform-origin:0 0;opacity:0;will-change:transform,opacity;filter:drop-shadow(8px 9px 0 rgba(70,25,15,.14))}
+#intro .sparks{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none}
+#intro .sparks i{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff6d0 0 30%,#e9c46a 60%,rgba(233,196,106,0) 72%);opacity:0;will-change:transform,opacity}
+#intro .sparks i:nth-child(3n){background:radial-gradient(circle,#ffe3ea 0 30%,#b73051 62%,rgba(183,48,81,0) 74%)}
 .open-btn{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.tap{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 2.2rem);transform:translateX(-50%);white-space:nowrap;padding:.6rem 1.3rem;border-radius:999px;background:rgba(58,8,20,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#fff4dd;font-family:var(--display);letter-spacing:.14em;font-size:1rem;box-shadow:0 4px 14px rgba(20,0,4,.35);animation:tapPulse 2.4s ease-in-out infinite;transition:opacity .4s ease}
-#intro.playing .tap,#intro.playing .ring{opacity:0;animation:none}
+.tap{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 2.2rem);transform:translateX(-50%);white-space:nowrap;padding:.6rem 1.3rem;border-radius:999px;background:rgba(58,8,20,.78);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#fff4dd;font-family:var(--display);letter-spacing:.14em;font-size:1rem;box-shadow:0 4px 14px rgba(20,0,4,.35);animation:tapPulse 2.4s ease-in-out infinite;transition:opacity .4s ease;opacity:0}
+#intro.ready .tap{opacity:1}
+#intro.playing .tap{opacity:0;animation:none}
 #intro.playing .open-btn{cursor:default}
-@keyframes ringPulse{0%{transform:scale(.94);opacity:.95}75%,100%{transform:scale(1.14);opacity:0}}
-@keyframes tapPulse{0%,100%{opacity:.7}50%{opacity:1}}
-@media (min-aspect-ratio:3/4){#intro .stage{height:100%}}
+.skip{position:absolute;top:calc(env(safe-area-inset-top,0px) + .9rem);right:1rem;padding:.4rem .95rem;border-radius:999px;border:1px solid rgba(255,244,221,.5);background:rgba(30,10,16,.45);color:#fff4dd;font-family:var(--display);letter-spacing:.12em;font-size:.8rem;cursor:pointer;transition:background-color .2s ease}
+.skip:hover{background:rgba(58,8,20,.8)}
+@keyframes tapPulse{0%,100%{box-shadow:0 4px 14px rgba(20,0,4,.35),0 0 0 0 rgba(255,236,190,.55)}50%{box-shadow:0 4px 14px rgba(20,0,4,.35),0 0 0 10px rgba(255,236,190,0)}}
 
 @media (max-width:560px){
   .lace{padding:1.8rem 1rem;border-width:18px}
@@ -242,12 +264,27 @@ h2.rv.in{animation:writeOn 1.5s cubic-bezier(.45,.05,.3,1) both}
 </head>
 <body>
 
-<div id="intro" role="dialog" aria-label="Wedding invitation envelope">
-  <div class="stage">
-    <video id="introVid" playsinline muted preload="auto" poster="opening-poster.jpg"><source src="opening.mp4" type="video/mp4"></video>
-    <span class="ring" aria-hidden="true"></span>
+<div id="intro" role="dialog" aria-label="Animated opening: the hotel doors open and a waiter finds Chris and Yumi">
+  <div class="bg"></div>
+  <div class="stage" id="stage">
+    <div class="lobby" id="lobby">
+      <div class="world" id="world">
+        <img class="l-bg" id="lobbyBg" src="intro/lobby.webp" alt="">
+        <img class="l-waiter" id="waiter" src="intro/waiter.webp" alt="">
+        <div class="l-couple" id="couple"><img src="intro/standing.webp" alt=""></div>
+        <img class="l-tree" id="tree" src="intro/tree.webp" alt="">
+      </div>
+    </div>
+    <div class="ext" id="ext">
+      <img class="e-facade" src="intro/exterior.webp" alt="">
+      <div class="e-door"><img class="leaf l" id="leafL" src="intro/door-l.webp" alt=""><img class="leaf r" id="leafR" src="intro/door-r.webp" alt=""></div>
+      <div class="snow" aria-hidden="true"></div>
+    </div>
+    <img class="carry" id="carry" src="intro/carry.webp" alt="">
+    <div class="sparks" id="sparks" aria-hidden="true"></div>
   </div>
-  <button class="open-btn" id="openBtn" aria-label="Open the invitation"><span class="tap">Tap the seal to open</span></button>
+  <button class="open-btn" id="openBtn" aria-label="Open the invitation"><span class="tap">Tap the doors to come in</span></button>
+  <button class="skip" id="skipBtn" type="button">Skip</button>
 </div>
 
 <nav class="top" aria-label="Sections">
@@ -473,29 +510,115 @@ h2.rv.in{animation:writeOn 1.5s cubic-bezier(.45,.05,.3,1) both}
     };
   })();
 
-  // ---- opening video ----
-  var intro=document.getElementById('intro'), openBtn=document.getElementById('openBtn'), vid=document.getElementById('introVid');
+  // ---- animated opening ----
+  // Stage units: 1080 x 1920. Shots: doors open -> push in -> waiter crosses the lobby -> finds the couple ->
+  // waiter leaves -> the couple jump into their invitation pose and land on the page.
+  var intro=document.getElementById('intro'), openBtn=document.getElementById('openBtn'), skipBtn=document.getElementById('skipBtn');
   var seen=false; try{seen=sessionStorage.getItem('cy-opened')==='1'}catch(e){}
-  var started=false, opened=false;
-  function finish(){
-    if(opened)return; opened=true;
-    intro.classList.add('open'); try{sessionStorage.setItem('cy-opened','1')}catch(e){}
+  var started=false, opened=false, raf=0, t0=0;
+  function $(id){return document.getElementById(id)}
+  var stage=$('stage'), lobby=$('lobby'), world=$('world'), ext=$('ext'), leafL=$('leafL'), leafR=$('leafR'),
+      waiter=$('waiter'), couple=$('couple'), carry=$('carry'), sparks=$('sparks'), tree=$('tree'), lobbyBg=$('lobbyBg');
+  var DOOR={cx:540.5,cy:1268.5,s0:843/1920}, FLOOR=1750, COUPLE_X=1740, WAITER_STOP=1420, CW=470, CH=554;
+  var T={door:.95,zoom0:.5,zoom1:2.35,walk0:1.9,walk1:5.4,pan0:2.9,pan1:5.4,bow0:5.5,bow1:6.2,exit0:6.3,exit1:7.45,swap:7.35,land0:8.3,land1:9.5};
+  var land=null, sparkEls=[];
+  function c01(v){return v<0?0:v>1?1:v}
+  function io3(p){p=c01(p);return p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2}
+  function out3(p){p=c01(p);return 1-Math.pow(1-p,3)}
+  function outBack(p){p=c01(p);var c=1.9;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2)}
+  function fit(){
+    var vw=window.innerWidth, vh=window.innerHeight;
+    var k=(vw/vh<.75)?Math.max(vw/1080,vh/1920):vh/1920;
+    stage.style.setProperty('--k',k);
+  }
+  function frame(t){
+    // doors
+    var d=82*out3(t/T.door);
+    leafL.style.transform='rotateY('+d+'deg)'; leafR.style.transform='rotateY('+(-d)+'deg)';
+    // push in through the doorway: the facade keeps growing after the lobby has filled the frame
+    var f=1+2.1*io3((t-T.zoom0)/(T.zoom1-T.zoom0)), s=Math.min(1,DOOR.s0*f), p=(s-DOOR.s0)/(1-DOOR.s0);
+    var cy=DOOR.cy+(960-DOOR.cy)*p;
+    lobby.style.transform='translate('+(540-540*s)+'px,'+(cy-960*s)+'px) scale('+s+')';
+    var eo=1-c01((f-1.9)/.8);
+    if(eo<=0){ext.style.display='none'} else {ext.style.display='';ext.style.opacity=eo;ext.style.transform='translate(0,'+(cy-DOOR.cy)+'px) scale('+f+')'}
+    // camera follows the waiter across the lobby
+    var cam=1080*io3((t-T.pan0)/(T.pan1-T.pan0));
+    world.style.transform='translateX('+(-cam)+'px)';
+    // waiter: walk in, pause with a small bow, walk out behind the couple
+    var wx, moving=true;
+    if(t<T.walk1){wx=-300+(WAITER_STOP+300)*(1-Math.pow(1-c01((t-T.walk0)/(T.walk1-T.walk0)),1.6))}
+    else if(t<T.exit0){wx=WAITER_STOP;moving=false}
+    else{var q=c01((t-T.exit0)/(T.exit1-T.exit0));wx=WAITER_STOP+1150*q*q}
+    var bob=moving?-Math.abs(Math.sin(wx/92))*13:0, tilt=moving?Math.sin(wx/92)*1.5:0;
+    if(t>T.bow0&&t<T.bow1)tilt=7*Math.sin(Math.PI*(t-T.bow0)/(T.bow1-T.bow0));
+    waiter.style.transform='translate('+(wx-314)+'px,'+(FLOOR+6-940+bob)+'px) rotate('+tilt+'deg)';
+    // the couple give two happy hops when he arrives
+    var hop=(t>5.65&&t<6.25)?-24*Math.abs(Math.sin(Math.PI*(t-5.65)/.3)):0;
+    var sw=c01((t-T.swap)/.16);
+    couple.style.transform='translateY('+hop+'px) scale('+(1-.25*sw)+')'; couple.style.opacity=1-sw;
+    // jump into the invitation pose
+    var cp=(t-T.swap)/.55;
+    if(cp>0){
+      var sc=.55+.45*outBack(cp), x=COUPLE_X-1080-CW*sc/2, y=FLOOR-CH*sc, w=CW*sc;
+      if(t>T.land0&&land){var D=T.land1-T.land0, e=io3((t-T.land0)/(D*.8));
+        x=x+(land.x-x)*e; y=y+(land.y-y)*e; w=w+(land.w-w)*e;
+        var fade=1-c01((t-T.land0-D*.5)/(D*.5));
+        lobbyBg.style.opacity=fade; tree.style.opacity=fade; intro.querySelector('.bg').style.opacity=fade; skipBtn.style.opacity=fade;}
+      carry.style.opacity=c01(cp*4); carry.style.transform='translate('+x+'px,'+y+'px) scale('+(w/CW)+')';
+      // sparkle burst
+      var sp=(t-T.swap)/.8;
+      for(var i=0;i<sparkEls.length;i++){var a=sparkEls[i], r=a.r*out3(sp);
+        a.el.style.opacity=sp<1?(1-sp)*1.2:0;
+        a.el.style.transform='translate('+(COUPLE_X-1080+Math.cos(a.th)*r)+'px,'+(FLOOR-300+Math.sin(a.th)*r)+'px) scale('+(a.sz*(1-.5*sp))+')';}
+    }
+  }
+  function measureLanding(){
+    // where the same artwork sits on the invitation, in stage units
+    var h1=document.querySelector('.hero h1'), art=document.querySelector('.hero .art');
+    if(!art)return;
+    if(h1){h1.style.transition='none';h1.classList.add('in');void h1.offsetWidth}
+    var a=art.getBoundingClientRect(), st=stage.getBoundingClientRect(), k=st.width/1080;
+    land={x:(a.left+a.width*.08333-st.left)/k, y:(a.top+a.height*.36422-st.top)/k, w:a.width*.67204/k};
+  }
+  function finishIntro(fadeMs){
+    if(opened)return; opened=true; cancelAnimationFrame(raf);
+    try{sessionStorage.setItem('cy-opened','1')}catch(e){}
+    document.documentElement.classList.remove('intro-lock');
     startReveal();
-    setTimeout(function(){intro.setAttribute('aria-hidden','true');intro.style.display='none';try{vid.pause()}catch(e){}},1100);
+    if(fadeMs){intro.classList.add('gone');setTimeout(function(){if(intro.parentNode)intro.parentNode.removeChild(intro)},fadeMs+60)}
+    else if(intro.parentNode)intro.parentNode.removeChild(intro);
     setTimeout(music.nudge,3500);
   }
-  function openEnv(){
-    if(started)return; started=true;
-    intro.classList.add('playing'); music.start();
-    if(reduce||!vid||!vid.play){finish();return}
-    vid.addEventListener('ended',function(){setTimeout(finish,700)});
-    vid.addEventListener('error',finish);
-    var pr; try{pr=vid.play()}catch(e){finish();return}
-    if(pr&&pr.catch)pr.catch(finish);
-    setTimeout(finish,12000); // never leave a guest stuck if the video stalls
+  function introTick(now){
+    var t=(now-t0)/1000;
+    if(!land&&t>T.land0-.25)measureLanding();
+    frame(t);
+    if(t>=T.land1){finishIntro(0);return}
+    raf=requestAnimationFrame(introTick);
   }
-  if(seen){intro.parentNode.removeChild(intro);startReveal()} else {openBtn.focus({preventScroll:true})}
-  openBtn.addEventListener('click',openEnv);
+  var isReady=false, wantOpen=false;
+  function openEnv(){
+    if(started)return;
+    if(!isReady){if(!wantOpen){wantOpen=true;music.start()}return}
+    started=true;
+    intro.classList.add('playing'); if(!wantOpen)music.start();
+    if(reduce||!window.requestAnimationFrame){finishIntro(500);return}
+    t0=performance.now(); raf=requestAnimationFrame(introTick);
+  }
+  window.__introSeek=function(t){started=true;intro.classList.add('playing');cancelAnimationFrame(raf);if(!land&&t>T.land0-.25)measureLanding();frame(t)};
+  if(seen){intro.parentNode.removeChild(intro);startReveal()}
+  else{
+    document.documentElement.classList.add('intro-lock'); window.scrollTo(0,0);
+    for(var i=0;i<16;i++){var sp=document.createElement('i');sparks.appendChild(sp);sparkEls.push({el:sp,th:i/16*Math.PI*2+(i%2)*.2,r:230+(i%4)*55,sz:.8+(i%3)*.45})}
+    fit(); window.addEventListener('resize',fit); frame(0);
+    var imgs=[].slice.call(intro.querySelectorAll('img')), left=imgs.length;
+    function ready(){if(isReady)return;isReady=true;intro.classList.add('ready');if(wantOpen)openEnv()}
+    imgs.forEach(function(im){if(im.complete){if(--left===0)ready()}else{im.addEventListener('load',function(){if(--left===0)ready()});im.addEventListener('error',function(){if(--left===0)ready()})}});
+    setTimeout(ready,6000);
+    openBtn.focus({preventScroll:true});
+    openBtn.addEventListener('click',openEnv);
+    skipBtn.addEventListener('click',function(){if(!started){started=true;music.start()}finishIntro(500)});
+  }
 
   // ---- countdown ----
   var target=new Date('2026-12-26T00:00:00+08:00').getTime();
