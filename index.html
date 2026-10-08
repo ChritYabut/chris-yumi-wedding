@@ -246,27 +246,27 @@ h2.rv.in{animation:writeOn 1.5s cubic-bezier(.45,.05,.3,1) both}
 html.intro-lock,html.intro-lock body{overflow:hidden}
 #intro{position:fixed;inset:0;z-index:100;overflow:hidden;touch-action:none;overscroll-behavior:contain;transition:opacity .5s ease}
 #intro.gone{opacity:0;pointer-events:none}
-#intro .bg{position:absolute;inset:0;background:#131c33}
+#intro .bg{position:absolute;inset:0;background:#2e3f60}
 #intro .stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;transform:translate(-50%,-50%) scale(var(--k,.4))}
 #intro img{position:absolute;display:block;max-width:none;-webkit-user-drag:none;user-select:none}
 #intro .lobby{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;transform-origin:0 0;will-change:transform}
 #intro .world{position:absolute;left:0;top:0;width:2160px;height:1920px;will-change:transform}
 #intro .l-bg{left:0;top:0;width:2160px;height:1920px}
-#intro .l-tree{left:330px;top:662px;width:707px;height:1060px;filter:drop-shadow(10px 12px 0 rgba(70,25,15,.16))}
-#intro .l-waiter{left:0;top:0;width:629px;height:940px;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(9px 10px 0 rgba(70,25,15,.16))}
-#intro .l-couple{position:absolute;left:1451px;top:981px;width:579px;height:769px;transform-origin:50% 100%;will-change:transform;filter:drop-shadow(8px 9px 0 rgba(70,25,15,.16))}
+#intro .l-tree{left:372px;top:712px;width:684px;height:1040px}
+#intro .l-waiter{left:0;top:0;width:621px;height:940px;transform-origin:50% 100%;will-change:transform}
+#intro .l-couple{position:absolute;width:579px;height:769px;transform-origin:50% 100%;will-change:transform}
 #intro .l-couple img{left:0;top:0;width:100%;height:100%}
-#intro .ext{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540.5px 1268.5px;will-change:transform,opacity}
+#intro .ext{position:absolute;left:0;top:0;width:1080px;height:1920px;will-change:transform,opacity}
 #intro .e-facade{left:0;top:0;width:1080px;height:1920px}
-#intro .e-door{position:absolute;left:326px;top:847px;width:429px;height:843px;perspective:1500px}
-#intro .leaf{top:0;height:843px;will-change:transform}
-#intro .leaf.l{left:0;width:214px;transform-origin:0 50%}
-#intro .leaf.r{left:214px;width:215px;transform-origin:100% 50%}
+#intro .e-door{position:absolute;perspective:1500px}
+#intro .leaf{top:0;height:100%;will-change:transform}
+#intro .leaf.l{left:0;width:50%;transform-origin:0 50%}
+#intro .leaf.r{left:50%;width:50%;transform-origin:100% 50%}
 #intro .snow{position:absolute;inset:0;pointer-events:none;
   background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 3px,transparent 4.5px),radial-gradient(circle,rgba(255,255,255,.8) 0 5px,transparent 6.5px),radial-gradient(circle,rgba(255,255,255,.7) 0 2.5px,transparent 4px);
   background-size:230px 290px,370px 410px,150px 190px;background-position:20px 0,160px 0,90px 0;animation:snowfall 9s linear infinite}
 @keyframes snowfall{to{background-position:60px 580px,120px 820px,150px 570px}}
-#intro .carry{left:0;top:0;width:470px;height:554px;transform-origin:0 0;opacity:0;will-change:transform,opacity;filter:drop-shadow(8px 9px 0 rgba(70,25,15,.14))}
+#intro .carry{left:0;top:0;width:470px;height:554px;transform-origin:0 0;opacity:0;will-change:transform,opacity}
 #intro .sparks{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none}
 #intro .sparks i{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff6d0 0 30%,#e9c46a 60%,rgba(233,196,106,0) 72%);opacity:0;will-change:transform,opacity}
 #intro .sparks i:nth-child(3n){background:radial-gradient(circle,#ffe3ea 0 30%,#b73051 62%,rgba(183,48,81,0) 74%)}
@@ -647,8 +647,9 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
   function $(id){return document.getElementById(id)}
   var stage=$('stage'), lobby=$('lobby'), world=$('world'), ext=$('ext'), leafL=$('leafL'), leafR=$('leafR'),
       waiter=$('waiter'), couple=$('couple'), carry=$('carry'), sparks=$('sparks'), tree=$('tree'), lobbyBg=$('lobbyBg');
-  var DOOR={cx:540.5,cy:1268.5,s0:843/1920}, FLOOR=1750, COUPLE_X=1740, WAITER_STOP=1420, CW=470, CH=554;
-  var T={door:.95,zoom0:.5,zoom1:2.35,walk0:1.9,walk1:5.4,pan0:2.9,pan1:5.4,bow0:5.5,bow1:6.2,exit0:6.3,exit1:7.45,swap:7.35,land0:8.3,land1:9.5};
+  var DR={x:422.8,y:1150.3,w:228.8,h:431.3};   // where the double doors sit in the exterior artwork
+  var DOOR={cx:DR.x+DR.w/2,cy:DR.y+DR.h/2,s0:Math.max(DR.w/1080,DR.h/1920),k:Math.max(1080/DR.w,1920/DR.h)*1.3}, FLOOR=1772, COUPLE_X=1740, WAITER_STOP=1420, CW=470, CH=554;
+  var T={door:.95,zoom0:.5,zoom1:2.6,walk0:2.15,walk1:5.65,pan0:3.15,pan1:5.65,bow0:5.75,bow1:6.45,exit0:6.55,exit1:7.7,swap:7.6,land0:8.55,land1:9.75};
   var land=null, sparkEls=[];
   function c01(v){return v<0?0:v>1?1:v}
   function io3(p){p=c01(p);return p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2}
@@ -664,10 +665,10 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
     var d=82*out3(t/T.door);
     leafL.style.transform='rotateY('+d+'deg)'; leafR.style.transform='rotateY('+(-d)+'deg)';
     // push in through the doorway: the facade keeps growing after the lobby has filled the frame
-    var f=1+2.1*io3((t-T.zoom0)/(T.zoom1-T.zoom0)), s=Math.min(1,DOOR.s0*f), p=(s-DOOR.s0)/(1-DOOR.s0);
+    var f=Math.pow(DOOR.k,io3((t-T.zoom0)/(T.zoom1-T.zoom0))), s=Math.min(1,DOOR.s0*f), p=(s-DOOR.s0)/(1-DOOR.s0);
     var cy=DOOR.cy+(960-DOOR.cy)*p;
     lobby.style.transform='translate('+(540-540*s)+'px,'+(cy-960*s)+'px) scale('+s+')';
-    var eo=1-c01((f-1.9)/.8);
+    var eo=1-c01((DOOR.s0*f-.83)/.36);
     if(eo<=0){ext.style.display='none'} else {ext.style.display='';ext.style.opacity=eo;ext.style.transform='translate(0,'+(cy-DOOR.cy)+'px) scale('+f+')'}
     // camera follows the waiter across the lobby
     var cam=1080*io3((t-T.pan0)/(T.pan1-T.pan0));
@@ -679,9 +680,9 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
     else{var q=c01((t-T.exit0)/(T.exit1-T.exit0));wx=WAITER_STOP+1150*q*q}
     var bob=moving?-Math.abs(Math.sin(wx/92))*13:0, tilt=moving?Math.sin(wx/92)*1.5:0;
     if(t>T.bow0&&t<T.bow1)tilt=7*Math.sin(Math.PI*(t-T.bow0)/(T.bow1-T.bow0));
-    waiter.style.transform='translate('+(wx-314)+'px,'+(FLOOR+6-940+bob)+'px) rotate('+tilt+'deg)';
+    waiter.style.transform='translate('+(wx-310)+'px,'+(FLOOR+6-940+bob)+'px) rotate('+tilt+'deg)';
     // the couple give two happy hops when he arrives
-    var hop=(t>5.65&&t<6.25)?-24*Math.abs(Math.sin(Math.PI*(t-5.65)/.3)):0;
+    var h0=T.bow0+.15, hop=(t>h0&&t<h0+.6)?-24*Math.abs(Math.sin(Math.PI*(t-h0)/.3)):0;
     var sw=c01((t-T.swap)/.16);
     couple.style.transform='translateY('+hop+'px) scale('+(1-.25*sw)+')'; couple.style.opacity=1-sw;
     // jump into the invitation pose
@@ -739,6 +740,9 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
   else{
     document.documentElement.classList.add('intro-lock'); window.scrollTo(0,0);
     for(var i=0;i<16;i++){var sp=document.createElement('i');sparks.appendChild(sp);sparkEls.push({el:sp,th:i/16*Math.PI*2+(i%2)*.2,r:230+(i%4)*55,sz:.8+(i%3)*.45})}
+    var dEl=intro.querySelector('.e-door'); dEl.style.left=DR.x+'px'; dEl.style.top=DR.y+'px'; dEl.style.width=DR.w+'px'; dEl.style.height=DR.h+'px';
+    ext.style.transformOrigin=DOOR.cx+'px '+DOOR.cy+'px';
+    couple.style.left=(COUPLE_X-289.5)+'px'; couple.style.top=(FLOOR-769)+'px';
     fit(); window.addEventListener('resize',fit); frame(0);
     var imgs=[].slice.call(intro.querySelectorAll('img')), left=imgs.length;
     function ready(){if(isReady)return;isReady=true;intro.classList.add('ready');if(wantOpen)openEnv()}
